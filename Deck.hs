@@ -39,24 +39,24 @@ possibleValues card
     | otherwise = fromEnum card
 
 
--- |'possiblePoints' calculates all possible scores for a given hand.
+-- possiblePoints calculates all possible scores for a given hand.
 possiblePoints :: [Card] -> [Int]
 possiblePoints hand = nub $ map sum $ mapM possibleValues hand
 
 
--- |The 'Deck' data type represents a deck of cards that can be shuffled.
+-- The Deck data type represents a deck of cards that can be shuffled.
 data Deck = Deck
   { cards :: [Card]
   , gen :: StdGen }
   deriving (Show)
 
--- |'mkDeck' will construct a 52-card deck.
+-- mkDeck will construct a 52-card deck.
 mkDeck :: StdGen -> Deck
 mkDeck g = 
   Deck { cards = [ card | card <- [Ace ..], _ <- [1..4] :: [Int] ]
        , gen = g }
 
--- |The 'DeckS' is the current state of the 'Deck'.
+-- The DeckS is the current state of the 'Deck'.
 type DeckS a = State Deck a
 
 -- |'draw' will take one card off the top of the deck.

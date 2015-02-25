@@ -1,3 +1,4 @@
+{-# LANGUAGE GADTs #-}
 module Main where
 
 import Deck
@@ -17,6 +18,7 @@ data GameActions a where
     Win :: GameActions ()
     Lose :: GameActions ()
 
+-- We run all game logic in the GameS monad, which in turn can run powerful functions of the GameActions type
 type GameS = ProgramT GameActions (State Game)
 
 main :: IO ()
@@ -41,8 +43,8 @@ interpretIO strats s instr = case runState (viewT instr) s of
 
 
 data Game = Game
-  { deck  :: Deck
-  , hands :: M.Map PlayerType [Card]
+  { deck  :: Deck                       -- This is our shuffled deck of cards
+  , hands :: M.Map PlayerType [Card]    -- this uses the Data.Map.Strict package to map a player to their cards
   }
 
 data Action = Hit | Stay deriving (Eq, Read)
